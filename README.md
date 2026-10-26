@@ -196,24 +196,45 @@ VITE_API_BASE_URL=http://localhost:5000/api/v1
 
 ## 🚀 Quick Start Guide
 
-### 1. Start Database (Docker Compose)
+### Option A: Run Full Stack with Docker (Recommended)
 
-From the repository root:
+Run the entire platform (PostgreSQL, Backend API, and Frontend SPA) with a single command:
+
 ```bash
-# Start PostgreSQL in detached mode
-docker compose up -d
+# 1. Copy the environment configuration (first-time only)
+cp .env.example .env
 
-# Verify container is running and healthy
+# 2. Build and launch all services in detached mode
+docker compose up -d --build
+
+# 3. Check health status of all containers
 docker compose ps
 
-# View database logs
-docker compose logs -f postgres
+# 4. View aggregated service logs
+docker compose logs -f
+```
 
-# Stop the database container when finished
+All three services will be operational:
+- **Frontend SPA:** [http://localhost](http://localhost) (or `http://localhost:80`)
+- **Backend API:** [http://localhost:5000](http://localhost:5000)
+- **API via Nginx Proxy:** [http://localhost/api/v1/health](http://localhost/api/v1/health)
+- **PostgreSQL Database:** `localhost:5432` (bound to `127.0.0.1`)
+
+To stop all containers:
+```bash
 docker compose down
 ```
 
-The database port `5432` is bound strictly to `127.0.0.1` (localhost only) for security.
+---
+
+### Option B: Local Development Workflow (Without Full Containerization)
+
+If developing locally outside Docker, start PostgreSQL in Docker and run frontend/backend on the host:
+
+#### 1. Start Database
+```bash
+docker compose up -d postgres
+```
 
 ---
 

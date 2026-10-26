@@ -8,15 +8,20 @@ const app = express();
 
 // CORS configuration supporting frontend client origin
 const allowedOrigins = [
-  process.env.FRONTEND_URL || 'http://localhost:5173',
-  'http://127.0.0.1:5173'
-];
+  process.env.FRONTEND_URL,
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'http://localhost:80',
+  'http://localhost',
+  'http://127.0.0.1:80',
+  'http://127.0.0.1'
+].filter(Boolean);
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps, curl, or Postman)
-      if (!origin || allowedOrigins.includes(origin)) {
+      // Allow requests with no origin (like mobile apps, curl, or Docker internal health checks)
+      if (!origin || allowedOrigins.includes(origin) || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
         return callback(null, true);
       }
       return callback(new Error(`CORS error: Origin ${origin} not allowed`));
