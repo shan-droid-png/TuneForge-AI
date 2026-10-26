@@ -1,21 +1,31 @@
-import { logger } from '../utils/logger.js';
+import { logger } from "../utils/logger.js";
 
-/**
- * Centralized error-handling middleware.
- * Formats operational and unexpected errors consistently across the API.
- */
 export const errorHandler = (err, req, res, next) => {
   const statusCode = err.statusCode || err.status || 500;
-  const isProduction = process.env.NODE_ENV === 'production';
+  const isProduction = process.env.NODE_ENV === "production";
 
-  logger.error(`${req.method} ${req.originalUrl} - ${err.message}`, err.stack);
+  const errorCode =
+    err.errorCode ||
+    (statusCode >= 500 ? "INTERNAL_SERVER_ERROR" : "REQUEST_ERROR");
 
-  res.status(statusCode).json({
+  const message =
+    isProduction && statusCode >= 500
+      ? "An unexpected error occurred."
+      : err.message || "Internal Server Error";
+
+  logger.error(
+    `${req.method} ${req.originalUrl} - ${err.message}`,
+    err.stack
+  );
+
+  return res.status(statusCode).json({
     success: false,
     error: {
-      message: err.message || 'Internal Server Error',
+      code: errorCode,
+      message,
+      ...(err.details ? { details: err.details } : {}),
       statusCode,
-      ...(isProduction ? {} : { stack: err.stack })
-    }
+      ...(isProduction ? {} : { stack: err.stack }),
+    },
   });
 };

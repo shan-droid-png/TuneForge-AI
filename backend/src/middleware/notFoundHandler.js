@@ -1,13 +1,11 @@
-/**
- * 404 Not Found Middleware
- * Handles requests that do not match any registered routes.
- */
+import { ApiError } from "../utils/ApiError.js";
+
 export const notFoundHandler = (req, res, next) => {
-  res.status(404).json({
-    success: false,
-    error: {
-      message: `Cannot ${req.method} ${req.originalUrl}`,
-      statusCode: 404
-    }
-  });
+  next(
+    new ApiError(
+      404,
+      "NOT_FOUND",
+      `Cannot ${req.method} ${req.originalUrl}`
+    )
+  );
 };
