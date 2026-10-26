@@ -1,11 +1,11 @@
-import { Router } from 'express';
-import healthRoutes from './health.routes.js';
+import { Router } from "express";
+
+import healthRoutes from "./health.routes.js";
+import authRoutes from "./auth.routes.js";
 
 const apiRouter = Router();
 
-// Health check endpoint mounted at /api/v1/health
-apiRouter.use('/health', healthRoutes);
-
-// Future domain routes (auth, lyrics, prompts, projects, music) will be mounted here.
+apiRouter.use("/health", healthRoutes);
+apiRouter.use("/auth", authRoutes);
 
 export default apiRouter;
