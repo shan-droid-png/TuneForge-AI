@@ -1,0 +1,13 @@
+// Prisma schema file for TuneForge AI
+// Learn more about Prisma schema: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Future models (User, Project, Track, Lyric, Prompt, etc.) will be added in upcoming milestones.

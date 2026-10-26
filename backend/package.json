@@ -1,0 +1,37 @@
+{
+  "name": "tuneforge-backend",
+  "version": "0.1.0",
+  "description": "Backend API service for TuneForge AI",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio",
+    "test": "echo \"Error: no test specified yet\" && exit 0"
+  },
+  "keywords": [
+    "tuneforge",
+    "music",
+    "ai",
+    "express",
+    "nodejs",
+    "prisma",
+    "postgresql"
+  ],
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "prisma": "^5.22.0"
+  },
+  "engines": {
+    "node": ">=18.11.0"
+  }
+}
